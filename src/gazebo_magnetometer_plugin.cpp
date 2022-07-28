@@ -91,11 +91,11 @@ void MagnetometerPlugin::getSdfParams(const std::shared_ptr<const sdf::Element> 
     ignwarn << "[gazebo_magnetometer_plugin] Using default bias correlation time of " << random_walk_ << " s\n";
   }
 
-  if(sdf->HasElement("magTopic")) {
-    mag_topic_ = sdf->Get<std::string>("magTopic");
+  if(sdf->HasElement("magPubTopic")) {
+    mag_pub_topic_ = sdf->Get<std::string>("magPubTopic");
   } else {
-    mag_topic_ = kDefaultMagnetometerTopic;
-    ignwarn << "[gazebo_magnetometer_plugin] Using default magnetometer topic " << mag_topic_ << "\n";
+    mag_pub_topic_ = kDefaultMagnetometerTopic;
+    ignwarn << "[gazebo_magnetometer_plugin] Using default magnetometer topic " << mag_pub_topic_ << "\n";
   }
 
   gt_sub_topic_ = "/groundtruth";
@@ -109,7 +109,7 @@ void MagnetometerPlugin::Configure(const ignition::gazebo::Entity &_entity,
 {
   getSdfParams(_sdf);
 
-  pub_mag_ = this->node.Advertise<sensor_msgs::msgs::MagneticField>("/world/quadcopter/model/X3/link/base_link/sensor/magnetometer");
+  pub_mag_ = this->node.Advertise<sensor_msgs::msgs::MagneticField>(mag_pub_topic_);
   node.Subscribe(gt_sub_topic_, &MagnetometerPlugin::GroundtruthCallback, this);
 
   standard_normal_distribution_ = std::normal_distribution<double>(0.0, 1.0);

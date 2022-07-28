@@ -40,7 +40,6 @@ using namespace gps_plugin;
 
 GpsPlugin::GpsPlugin()
 {
-  pub_gps_ = this->node.Advertise<sensor_msgs::msgs::SITLGps>("/world/quadcopter/model/X3/link/base_link/sensor/gps");
 }
 
 GpsPlugin::~GpsPlugin() {
@@ -54,6 +53,12 @@ void GpsPlugin::Configure(const ignition::gazebo::Entity &_entity,
   const char *env_lat = std::getenv("PX4_HOME_LAT");
   const char *env_lon = std::getenv("PX4_HOME_LON");
   const char *env_alt = std::getenv("PX4_HOME_ALT");
+
+  std::string gps_pub_topic{"/gps"};
+  if(_sdf->HasElement("gpsPubTopic")){
+    gps_pub_topic = _sdf->Get<std::string>("gpsPubTopic");
+  }
+  pub_gps_ = this->node.Advertise<sensor_msgs::msgs::SITLGps>(gps_pub_topic);
 
   if (env_lat) {
     lat_home_ = std::stod(env_lat) * M_PI / 180.0;

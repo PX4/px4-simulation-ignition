@@ -63,7 +63,7 @@
 
 namespace magnetometer_plugin {
 
-  static constexpr auto kDefaultMagnetometerTopic = "mag";
+  static constexpr auto kDefaultMagnetometerTopic = "/mag";
   static constexpr auto kDefaultPubRate = 100.0; // [Hz]. Note: corresponds to most of the mag devices supported in PX4
 
   // Default values for use with ADIS16448 IMU
@@ -99,7 +99,7 @@ namespace magnetometer_plugin {
       ignition::gazebo::Model model_{ignition::gazebo::kNullEntity};
       ignition::gazebo::Entity model_link_{ignition::gazebo::kNullEntity};
 
-      std::string mag_topic_;
+      std::string mag_pub_topic_;
       ignition::transport::Node node;
       ignition::transport::Node::Publisher pub_mag_;
       std::string gt_sub_topic_;

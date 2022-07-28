@@ -57,7 +57,6 @@ using namespace barometer_plugin;
 
 BarometerPlugin::BarometerPlugin()
 {
-  pub_baro_ = this->node.Advertise<sensor_msgs::msgs::Pressure>("/world/quadcopter/model/X3/link/base_link/sensor/barometer");
 }
 
 BarometerPlugin::~BarometerPlugin() {
@@ -71,6 +70,13 @@ void BarometerPlugin::Configure(const ignition::gazebo::Entity &_entity,
     model_ = ignition::gazebo::Model(_entity);
     // Get link entity
     model_link_ = model_.LinkByName(_ecm, linkName);
+
+    std::string baro_pub_topic{"/baro"};
+    if(_sdf->HasElement("baroPubTopic")){
+      baro_pub_topic = _sdf->Get<std::string>("baroPubTopic");
+    }
+
+    pub_baro_ = this->node.Advertise<sensor_msgs::msgs::Pressure>(baro_pub_topic);
 
   if(!_ecm.EntityHasComponentType(model_link_, ignition::gazebo::components::WorldPose::typeId))
   {

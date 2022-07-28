@@ -173,6 +173,7 @@ namespace mavlink_interface
       std::string vision_sub_topic_{kDefaultVisionTopic};
       std::string mag_sub_topic_{kDefaultMagTopic};
       std::string baro_sub_topic_{kDefaultBarometerTopic};
+      std::string imu_sub_topic_{kDefaultImuTopic};
 
       std::mutex last_imu_message_mutex_ {};
 

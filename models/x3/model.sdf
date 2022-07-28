@@ -36,7 +36,7 @@
           <always_on>1</always_on>
           <update_rate>250</update_rate>
           <visualize>true</visualize>
-          <topic>imu</topic>
+          <topic>px4_demo/imu</topic>
       </sensor>
     </link>
     <link name='X3/rotor_0'>
@@ -303,16 +303,19 @@
       filename="libgazebo_barometer_plugin.so"
       name="barometer_plugin::BarometerPlugin">
       <link_name>X3/base_link</link_name>
+      <baroPubTopic>px4_demo/baro</baroPubTopic>
     </plugin>
     <plugin
       filename="libgazebo_magnetometer_plugin.so"
       name="magnetometer_plugin::MagnetometerPlugin">
       <link_name>X3/base_link</link_name>
+      <magPubTopic>px4_demo/mag</magPubTopic>
     </plugin>
     <plugin
       filename="libgazebo_gps_plugin.so"
       name="gps_plugin::GpsPlugin">
       <link_name>X3/base_link</link_name>
+      <gpsPubTopic>px4_demo/gps</gpsPubTopic>
     </plugin>
   </model>
 </sdf>
