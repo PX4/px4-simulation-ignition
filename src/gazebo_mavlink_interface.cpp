@@ -70,6 +70,7 @@ void GazeboMavlinkInterface::Configure(const ignition::gazebo::Entity &_entity,
   gazebo::getSdfParam<std::string>(_sdf, "irlockSubTopic", irlock_sub_topic_, irlock_sub_topic_);
   gazebo::getSdfParam<std::string>(_sdf, "magSubTopic", mag_sub_topic_, mag_sub_topic_);
   gazebo::getSdfParam<std::string>(_sdf, "baroSubTopic", baro_sub_topic_, baro_sub_topic_);
+  gazebo::getSdfParam<std::string>(_sdf, "imuSubTopic", imu_sub_topic_, imu_sub_topic_);
   groundtruth_sub_topic_ = "/groundtruth";
 
   // set input_reference_ from inputs.control
@@ -139,10 +140,10 @@ void GazeboMavlinkInterface::Configure(const ignition::gazebo::Entity &_entity,
   sigIntConnection_ = _em.Connect<ignition::gazebo::events::Stop>(std::bind(&GazeboMavlinkInterface::onSigInt, this));
 
   // Subscribe to messages of other plugins.
-  node.Subscribe("/imu", &GazeboMavlinkInterface::ImuCallback, this);
-  node.Subscribe("/world/quadcopter/model/X3/link/base_link/sensor/barometer", &GazeboMavlinkInterface::BarometerCallback, this);
-  node.Subscribe("/world/quadcopter/model/X3/link/base_link/sensor/magnetometer", &GazeboMavlinkInterface::MagnetometerCallback, this);
-  node.Subscribe("/world/quadcopter/model/X3/link/base_link/sensor/gps", &GazeboMavlinkInterface::GpsCallback, this);
+  node.Subscribe(imu_sub_topic_, &GazeboMavlinkInterface::ImuCallback, this);
+  node.Subscribe(baro_sub_topic_, &GazeboMavlinkInterface::BarometerCallback, this);
+  node.Subscribe(mag_sub_topic_, &GazeboMavlinkInterface::MagnetometerCallback, this);
+  node.Subscribe(gps_sub_topic_, &GazeboMavlinkInterface::GpsCallback, this);
 
   // This doesn't seem to be used anywhere but we leave it here
   // for potential compatibility
